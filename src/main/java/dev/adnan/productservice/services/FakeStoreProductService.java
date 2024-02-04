@@ -12,15 +12,29 @@ import org.springframework.web.client.RestTemplate;
 public class FakeStoreProductService implements ProductService {
     RestTemplateBuilder restTemplateBuilder;
     private String getProductRequestUrl = "https://fakestoreapi.com/products/{id}";
+    private String createProductUrl = "https://fakestoreapi.com/products";
 
     public FakeStoreProductService(RestTemplateBuilder restTemplateBuilder) {
         this.restTemplateBuilder = restTemplateBuilder;
     }
+
+    @Override
+    public GenericProductDTO createProduct(GenericProductDTO product) {
+        RestTemplate restTemplate = restTemplateBuilder.build();
+
+        ResponseEntity<GenericProductDTO> response = restTemplate.postForEntity(createProductUrl,
+                product, GenericProductDTO.class);
+
+        return response.getBody();
+    }
+
+
     @Override
     public GenericProductDTO getProductById(Long id) {
         RestTemplate restTemplate = restTemplateBuilder.build();
         //Gets the response/calls the 3party APIs
-        ResponseEntity<FakeStoreProductDTO> response =  restTemplate.getForEntity(getProductRequestUrl, FakeStoreProductDTO.class, id);
+        ResponseEntity<FakeStoreProductDTO> response =  restTemplate.getForEntity(getProductRequestUrl,
+                FakeStoreProductDTO.class, id);
         //Then 3party APIs JSON is converted into our FakeStoreProductDTO
         FakeStoreProductDTO fakeStoreProductDTO = response.getBody();
 

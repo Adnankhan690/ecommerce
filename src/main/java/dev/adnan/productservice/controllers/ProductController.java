@@ -22,14 +22,16 @@ public class ProductController {
     public void getAllProducts() {
 
     }
+    //TODO: Implement by yourself Homework
     @DeleteMapping("{id}")
     public void deleteProductById() {
 
     }
-    @PostMapping("{id}")
-    public void createProduct() {
-
+    @PostMapping
+    public GenericProductDTO createProduct(@RequestBody GenericProductDTO product ) {
+        return productService.createProduct(product);
     }
+    //TODO: Implement by yourself Homework
     @PutMapping("{id}")
     public void updateProductById() {
 
