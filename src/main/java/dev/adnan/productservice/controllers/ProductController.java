@@ -1,12 +1,20 @@
 package dev.adnan.productservice.controllers;
 
+import dev.adnan.productservice.DTO.ExceptionDTO;
+import dev.adnan.productservice.DTO.FakeStoreProductDTO;
 import dev.adnan.productservice.DTO.GenericProductDTO;
+import dev.adnan.productservice.exceptions.NotFoundException;
 import dev.adnan.productservice.services.ProductService;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.actuate.autoconfigure.observation.ObservationProperties;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
-@RequestMapping("/products/")
+@RequestMapping("/products")
 public class ProductController {
 
     ProductService productService;
@@ -14,27 +22,29 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @GetMapping("{id}")
-    public GenericProductDTO getProductById(@PathVariable("id") Long id) {
+    @GetMapping("/{id}")
+    public GenericProductDTO getProductById(@PathVariable("id") Long id) throws NotFoundException {
         return  productService.getProductById(id);
     }
-    @GetMapping("products")
-    public void getAllProducts() {
 
+    @GetMapping
+    public List<GenericProductDTO> getAllProducts() {
+        return productService.getAllProducts();
     }
-    //TODO: Implement by yourself Homework
-    @DeleteMapping("{id}")
-    public void deleteProductById() {
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<GenericProductDTO> deleteProductById(@PathVariable("id") Long id) {
+        return new ResponseEntity<>(productService.deleteById(id),
+                HttpStatus.OK);
     }
     @PostMapping
     public GenericProductDTO createProduct(@RequestBody GenericProductDTO product ) {
         return productService.createProduct(product);
     }
-    //TODO: Implement by yourself Homework
-    @PutMapping("{id}")
-    public void updateProductById() {
 
+    @PutMapping("/{id}")
+    public GenericProductDTO updateProductById(@PathVariable("id") Long id, @RequestBody FakeStoreProductDTO product) {
+        return productService.updateProductById(id, product);
     }
 
 }
