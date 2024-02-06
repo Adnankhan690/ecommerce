@@ -4,12 +4,13 @@ import dev.adnan.productservice.thirdPartyClients.productservice.FakeStoreProduc
 import dev.adnan.productservice.DTO.GenericProductDTO;
 import dev.adnan.productservice.exceptions.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import dev.adnan.productservice.thirdPartyClients.productservice.FakeStoreProductServiceClient;
 
 import java.util.ArrayList;
 import java.util.List;
-
+//@Primary
 @Service("fakeStoreProductService")
 public class FakeStoreProductService implements ProductService {
     private FakeStoreProductServiceClient fakeStoreProductServiceClient;
