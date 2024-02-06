@@ -14,12 +14,14 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service("fakeStoreProductService")
 public class FakeStoreProductService implements ProductService {
     RestTemplateBuilder restTemplateBuilder;
     private final String baseSpecificProductRequestUrl = "https://fakestoreapi.com/products/{id}";
     private final String baseProductRequestUrl = "https://fakestoreapi.com/products";
+
     public FakeStoreProductService(RestTemplateBuilder restTemplateBuilder) {
         this.restTemplateBuilder = restTemplateBuilder;
     }
@@ -96,14 +98,17 @@ public class FakeStoreProductService implements ProductService {
 
         FakeStoreProductDTO existingProduct = response.getBody();
 
-        if(updateProduct.getId() != null) {
-            existingProduct.setId(updateProduct.getId());
-        }
-        existingProduct.setCategory(updateProduct.getCategory());
-        existingProduct.setDescription(updateProduct.getDescription());
-        existingProduct.setImage(updateProduct.getImage());
-        existingProduct.setPrice(updateProduct.getPrice());
-        existingProduct.setTitle(updateProduct.getTitle());
+        existingProduct.setCategory(Objects.requireNonNullElse(updateProduct.getCategory(),
+                existingProduct.getCategory()));
+
+        existingProduct.setDescription(Objects.requireNonNullElse(updateProduct.getDescription(),
+                existingProduct.getDescription()));
+
+        existingProduct.setImage(Objects.requireNonNullElse(updateProduct.getImage(),
+                existingProduct.getImage()));
+
+        existingProduct.setTitle(Objects.requireNonNullElse(updateProduct.getTitle(),
+                existingProduct.getTitle()));
 
         return convertFakeStoreProductIntoGenericProduct(existingProduct);
     }
