@@ -43,8 +43,8 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
-    public GenericProductDTO updateProductById(@PathVariable("id") Long id, @RequestBody FakeStoreProductDTO product) {
-        return productService.updateProductById(id, product);
+    public GenericProductDTO updateProductById(@RequestBody FakeStoreProductDTO product, @PathVariable("id") Long id) {
+        return productService.updateProductById(product, id);
     }
 
 }

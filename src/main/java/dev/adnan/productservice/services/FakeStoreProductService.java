@@ -3,6 +3,7 @@ package dev.adnan.productservice.services;
 import dev.adnan.productservice.DTO.FakeStoreProductDTO;
 import dev.adnan.productservice.DTO.GenericProductDTO;
 import dev.adnan.productservice.exceptions.NotFoundException;
+import lombok.Generated;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -45,19 +46,15 @@ public class FakeStoreProductService implements ProductService {
     @Override
     public GenericProductDTO getProductById(Long id) throws NotFoundException {
         RestTemplate restTemplate = restTemplateBuilder.build();
-        //Gets the response/calls the 3party APIs
-        ResponseEntity<FakeStoreProductDTO> response =  restTemplate.getForEntity(baseSpecificProductRequestUrl,
+        ResponseEntity<FakeStoreProductDTO> response = restTemplate.getForEntity(baseSpecificProductRequestUrl,
                 FakeStoreProductDTO.class, id);
-        //Then 3party APIs JSON is converted into our FakeStoreProductDTO
+
         FakeStoreProductDTO fakeStoreProductDTO = response.getBody();
         //Exception
         if(fakeStoreProductDTO == null) {
             throw new NotFoundException("Product with id "+id+" doesn't exist");
         }
-        GenericProductDTO product = convertFakeStoreProductIntoGenericProduct(fakeStoreProductDTO);
-        //Now we will forward this information from 3party API which is converted into FakeStoreDTO to our clients
-
-        return product;
+        return convertFakeStoreProductIntoGenericProduct(fakeStoreProductDTO);
     }
 
     @Override
@@ -92,8 +89,23 @@ public class FakeStoreProductService implements ProductService {
     }
 
     @Override
-    public GenericProductDTO updateProductById(Long id, FakeStoreProductDTO product) {
-        return null;
+    public GenericProductDTO updateProductById(FakeStoreProductDTO updateProduct, Long id) {
+        RestTemplate restTemplate = restTemplateBuilder.build();
+        ResponseEntity<FakeStoreProductDTO> response = restTemplate.getForEntity(baseSpecificProductRequestUrl,
+                FakeStoreProductDTO.class, id);
+
+        FakeStoreProductDTO existingProduct = response.getBody();
+
+        if(updateProduct.getId() != null) {
+            existingProduct.setId(updateProduct.getId());
+        }
+        existingProduct.setCategory(updateProduct.getCategory());
+        existingProduct.setDescription(updateProduct.getDescription());
+        existingProduct.setImage(updateProduct.getImage());
+        existingProduct.setPrice(updateProduct.getPrice());
+        existingProduct.setTitle(updateProduct.getTitle());
+
+        return convertFakeStoreProductIntoGenericProduct(existingProduct);
     }
 
 }
