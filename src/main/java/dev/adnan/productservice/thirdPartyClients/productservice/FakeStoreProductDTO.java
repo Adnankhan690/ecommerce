@@ -1,4 +1,4 @@
-package dev.adnan.productservice.DTO;
+package dev.adnan.productservice.thirdPartyClients.productservice;
 
 import lombok.Getter;
 import lombok.Setter;

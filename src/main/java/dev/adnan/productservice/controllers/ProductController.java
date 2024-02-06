@@ -1,12 +1,9 @@
 package dev.adnan.productservice.controllers;
 
-import dev.adnan.productservice.DTO.ExceptionDTO;
-import dev.adnan.productservice.DTO.FakeStoreProductDTO;
+import dev.adnan.productservice.thirdPartyClients.productservice.FakeStoreProductDTO;
 import dev.adnan.productservice.DTO.GenericProductDTO;
 import dev.adnan.productservice.exceptions.NotFoundException;
 import dev.adnan.productservice.services.ProductService;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.actuate.autoconfigure.observation.ObservationProperties;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +15,7 @@ import java.util.List;
 public class ProductController {
 
     ProductService productService;
-    public ProductController(@Qualifier("fakeStoreProductService") ProductService productService) {
+    public ProductController(ProductService productService) {
         this.productService = productService;
     }
 

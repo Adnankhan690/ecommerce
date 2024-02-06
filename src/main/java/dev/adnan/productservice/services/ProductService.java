@@ -1,6 +1,6 @@
 package dev.adnan.productservice.services;
 
-import dev.adnan.productservice.DTO.FakeStoreProductDTO;
+import dev.adnan.productservice.thirdPartyClients.productservice.FakeStoreProductDTO;
 import dev.adnan.productservice.DTO.GenericProductDTO;
 import dev.adnan.productservice.exceptions.NotFoundException;
 
