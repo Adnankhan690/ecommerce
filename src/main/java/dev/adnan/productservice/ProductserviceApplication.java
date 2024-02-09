@@ -8,8 +8,10 @@ import dev.adnan.productservice.inheritance.tablePerClass.UserRepository;
 
 
 import dev.adnan.productservice.models.Category;
+import dev.adnan.productservice.models.Price;
 import dev.adnan.productservice.models.Product;
 import dev.adnan.productservice.repositories.CategoryRepository;
+import dev.adnan.productservice.repositories.PriceRepository;
 import dev.adnan.productservice.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.CommandLineRunner;
@@ -26,6 +28,7 @@ public class ProductserviceApplication implements CommandLineRunner {
     private UserRepository userRepository;
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
+    private PriceRepository priceRepository;
 
 //    public ProductserviceApplication(@Qualifier("tpc_mr") MentorRepository mentorRepository,
 //                                     UserRepository userRepository,
@@ -36,9 +39,11 @@ public class ProductserviceApplication implements CommandLineRunner {
 //    }
 
       public ProductserviceApplication(CategoryRepository categoryRepository,
-                                       ProductRepository productRepository) {
+                                       ProductRepository productRepository,
+                                       PriceRepository priceRepository) {
           this.categoryRepository = categoryRepository;
           this.productRepository = productRepository;
+          this.priceRepository = priceRepository;
       }
 
     public static void main(String[] args) {
@@ -65,20 +70,27 @@ public class ProductserviceApplication implements CommandLineRunner {
 
         Category category = new Category();
         category.setName("Apple Device");
-        Category savedCategory = categoryRepository.save(category);
+//        Category savedCategory = categoryRepository.save(category);
+
+        Price price = new Price();
+        price.setCurrency("Rupee");
+        price.setPrice(100000);
+//        Price savedPrice = priceRepository.save(price);
 
         Product product = new Product();
         product.setDescription("The most latest iphone 15, launching with quad camera.");
         product.setTitle("iPhone 15");
-        product.setPrice(100000.00);
+        product.setPrice(price);
 
         product.setCategory(category);
 
         productRepository.save(product);
+        productRepository.deleteById(UUID.fromString(
+                "bb7d1ec0-1d12-405a-a4e0-ba623b8dbe46"));
 
-        Category category1 = categoryRepository.findById(UUID.fromString(
-                "70758478-2433-49d9-a733-a540dc3e6c13")).get();
-        System.out.println("Category name is: "+category1.getName());
+//        Category category1 = categoryRepository.findById(UUID.fromString(
+//                "70758478-2433-49d9-a733-a540dc3e6c13")).get();
+//        System.out.println("Category name is: "+category1.getName());
 
     }
 
