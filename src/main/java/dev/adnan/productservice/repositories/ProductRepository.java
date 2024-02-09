@@ -22,6 +22,6 @@ public interface ProductRepository extends JpaRepository<Product, UUID> {
     List<Product> findAllByTitle(String title);
 
     //Written in HQL(Hibernate Query Language), uses Compile Time Check
-    @Query("select product from product where product.title = :title")
-    List<Product> readAllByTitle(String title);
+//    @Query("select product from product where product.title = :title")
+//    List<Product> readAllByTitle(String title);
 }
