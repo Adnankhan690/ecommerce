@@ -2,10 +2,13 @@ package dev.adnan.productservice.services;
 
 import dev.adnan.productservice.DTO.GenericProductDTO;
 import dev.adnan.productservice.exceptions.NotFoundException;
+import dev.adnan.productservice.models.Category;
 import dev.adnan.productservice.models.Price;
 import dev.adnan.productservice.models.Product;
 import dev.adnan.productservice.repositories.ProductRepository;
 import dev.adnan.productservice.thirdPartyClients.productservice.FakeStoreProductDTO;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.ResponseEntity;
@@ -63,7 +66,21 @@ public class SelfProductServiceImpl implements ProductService {
 
     @Override
     public GenericProductDTO createProduct(GenericProductDTO product) {
-        return null;
+        Product newProduct = new Product();
+        Category category = new Category();
+        category.setName(product.getCategory());
+
+        newProduct.setCategory(category);
+        newProduct.setImage(product.getImage());
+        newProduct.setDescription(product.getDescription());
+        newProduct.setTitle(product.getTitle());
+     //   productRepository.saveAndFlush(newProduct);
+         Price price = new Price();
+         price.setPrice(product.getPrice());
+         newProduct.setPrice(price);
+       productRepository.save(newProduct);
+
+        return convertProductToGenericProductDto(newProduct);
     }
 
     @Override

@@ -17,6 +17,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     long countAllByPrice_Currency(String currency);
 
+
     void delete(Product entity);
     //Written in SQL, does not use Compile time check
     @Query(value = CustomQueries.FIND_ALL_BY_TITLE,nativeQuery = true)
