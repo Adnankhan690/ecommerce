@@ -6,11 +6,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.UUID;
+import java.util.Optional;
 
 @Repository
-public interface ProductRepository extends JpaRepository<Product, UUID> {
+public interface ProductRepository extends JpaRepository<Product, Long> {
     Product findByTitleEquals(String title);
+    Optional<Product> findById(Long id);
     Product findByTitleEqualsAndPrice_Price(String title, double price);
     List<Product> findAllByPrice_Currency(String currency);
 

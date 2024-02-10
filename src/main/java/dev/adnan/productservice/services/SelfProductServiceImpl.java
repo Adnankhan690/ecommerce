@@ -2,23 +2,63 @@ package dev.adnan.productservice.services;
 
 import dev.adnan.productservice.DTO.GenericProductDTO;
 import dev.adnan.productservice.exceptions.NotFoundException;
+import dev.adnan.productservice.models.Price;
+import dev.adnan.productservice.models.Product;
 import dev.adnan.productservice.repositories.ProductRepository;
 import dev.adnan.productservice.thirdPartyClients.productservice.FakeStoreProductDTO;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service("selfProductServiceImpl")
 public class SelfProductServiceImpl implements ProductService {
-    private ProductRepository productRepository;
+    @Value("${fakestore.api.url}")
+    private String storeApiUrl;
 
-    public SelfProductServiceImpl(ProductRepository productRepository) {
+    @Value("/products")
+    private String productStoreApriUrl;
+
+    private final String baseProductRequestUrl;
+    private String baseSpecificProductRequestUrl;
+    private ProductRepository productRepository;
+    private RestTemplateBuilder restTemplateBuilder;
+
+    public SelfProductServiceImpl(ProductRepository productRepository,
+                                  RestTemplateBuilder restTemplateBuilder,
+                                  @Value("${fakestore.api.url}") String productStoreApriUrl,
+                                  @Value("/products") String baseProductRequestUrl) {
         this.productRepository = productRepository;
+        this.restTemplateBuilder = restTemplateBuilder;
+        this.baseProductRequestUrl = productStoreApriUrl + baseProductRequestUrl;
+        this.baseSpecificProductRequestUrl = productStoreApriUrl + baseProductRequestUrl + "/{id}";
     }
 
+    public GenericProductDTO convertProductToGenericProductDto(Product product) {
+        GenericProductDTO genericProductDTO = new GenericProductDTO();
+        genericProductDTO.setId(product.getId());
+        genericProductDTO.setImage(product.getImage());
+        genericProductDTO.setDescription(product.getDescription());
+        genericProductDTO.setTitle(product.getTitle());
+        genericProductDTO.setPrice(product.getPrice().getPrice());
+        genericProductDTO.setCategory(product.getCategory().getName());
+
+        return genericProductDTO;
+    }
     @Override
     public GenericProductDTO getProductById(Long id) throws NotFoundException {
-        return null;
+        Optional<Product> optionalProduct = productRepository.findById(id);
+
+        if(optionalProduct.isEmpty()) {
+            throw new NotFoundException("Product with id "+id+" doesn't exist");
+        }
+        Product product = optionalProduct.get();
+        return convertProductToGenericProductDto(product);
+
     }
 
     @Override

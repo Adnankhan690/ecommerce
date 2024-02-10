@@ -65,6 +65,7 @@ public class FakeStoreProductServiceClient {
         RequestCallback requestCallback = restTemplate.acceptHeaderRequestCallback(FakeStoreProductDTO.class);
         ResponseExtractor<ResponseEntity<FakeStoreProductDTO>> responseExtractor =
                 restTemplate.responseEntityExtractor(FakeStoreProductDTO.class);
+
         ResponseEntity<FakeStoreProductDTO> response = restTemplate.execute(baseSpecificProductRequestUrl, HttpMethod.DELETE,
                 requestCallback, responseExtractor, id);
 
