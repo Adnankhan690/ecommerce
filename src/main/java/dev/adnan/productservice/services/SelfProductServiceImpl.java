@@ -15,10 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Service("selfProductServiceImpl")
 public class SelfProductServiceImpl implements ProductService {
@@ -45,6 +42,8 @@ public class SelfProductServiceImpl implements ProductService {
 
     public GenericProductDTO convertProductToGenericProductDto(Product product) {
         GenericProductDTO genericProductDTO = new GenericProductDTO();
+
+        genericProductDTO.setId(product.getId());
         genericProductDTO.setImage(product.getImage());
         genericProductDTO.setDescription(product.getDescription());
         genericProductDTO.setTitle(product.getTitle());
@@ -86,8 +85,37 @@ public class SelfProductServiceImpl implements ProductService {
     }
 
     @Override
-    public GenericProductDTO updateProductById(FakeStoreProductDTO product, Long id) {
-        return null;
+    public GenericProductDTO updateProductById(GenericProductDTO updateProduct, Long id) throws NotFoundException {
+        Optional<Product> product = productRepository.findById(id);
+        if(product.isEmpty()) {
+            throw new NotFoundException("Product with id "+id+" doesn't exist");
+        }
+
+        Product existingProduct = product.get();
+
+        Price existingPrice = new Price();
+        existingPrice.setPrice(existingProduct.getPrice().getPrice());
+
+        Price updatePrice = new Price();
+        updatePrice.setPrice(updateProduct.getPrice());
+
+        existingProduct.setPrice(Objects.requireNonNullElse(updatePrice, existingPrice) );
+        existingProduct.setImage(Objects.requireNonNullElse( updateProduct.getImage(), existingProduct.getImage()));
+        existingProduct.setDescription(Objects.requireNonNullElse( updateProduct.getDescription(),
+                existingProduct.getDescription()));
+        existingProduct.setTitle(Objects.requireNonNullElse(updateProduct.getTitle(), existingProduct.getTitle()));
+
+        Category updateCategory = new Category();
+        updateCategory.setName(updateProduct.getCategory());
+
+        Category existingCategory = new Category();
+        existingCategory.setName(existingProduct.getCategory().getName());
+
+        existingProduct.setCategory(Objects.requireNonNullElse( updateCategory, existingCategory));
+        //Save it to DB
+        productRepository.saveAndFlush(existingProduct);
+
+        return convertProductToGenericProductDto(existingProduct);
     }
 
     @Override

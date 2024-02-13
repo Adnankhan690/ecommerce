@@ -9,7 +9,7 @@ import java.util.List;
 public interface ProductService {
     GenericProductDTO getProductById(Long id) throws NotFoundException;
     GenericProductDTO createProduct(GenericProductDTO product);
-    GenericProductDTO updateProductById(FakeStoreProductDTO product,Long id);
+    GenericProductDTO updateProductById(GenericProductDTO product,Long id) throws NotFoundException;
     GenericProductDTO deleteById(Long id);
     List<GenericProductDTO> getAllProducts();
 }

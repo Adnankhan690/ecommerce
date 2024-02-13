@@ -86,7 +86,7 @@ public class FakeStoreProductServiceClient {
         return productList;
     }
 
-    public FakeStoreProductDTO updateProductById(FakeStoreProductDTO updateProduct, Long id) {
+    public FakeStoreProductDTO updateProductById(GenericProductDTO updateProduct, Long id) {
         RestTemplate restTemplate = restTemplateBuilder.build();
         ResponseEntity<FakeStoreProductDTO> response = restTemplate.getForEntity(baseSpecificProductRequestUrl,
                 FakeStoreProductDTO.class, id);

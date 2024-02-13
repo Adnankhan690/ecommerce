@@ -55,7 +55,7 @@ public class FakeStoreProductService implements ProductService {
     }
 
     @Override
-    public GenericProductDTO updateProductById(FakeStoreProductDTO updateProduct, Long id) {
+    public GenericProductDTO updateProductById(GenericProductDTO updateProduct, Long id) throws NotFoundException {
         FakeStoreProductDTO fakeStoreProductDTO = fakeStoreProductServiceClient.updateProductById(updateProduct, id);
         return convertFakeStoreProductIntoGenericProduct(fakeStoreProductDTO);
     }
