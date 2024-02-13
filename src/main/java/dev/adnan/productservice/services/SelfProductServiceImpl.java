@@ -119,8 +119,14 @@ public class SelfProductServiceImpl implements ProductService {
     }
 
     @Override
-    public GenericProductDTO deleteById(Long id) {
-        return null;
+    public void deleteById(Long id) throws NotFoundException {
+        Optional<Product> product = productRepository.findById(id);
+
+        if(product.isEmpty()) {
+            throw new NotFoundException("Product with id "+id+" doesn't exist");
+        }
+
+        productRepository.deleteById(id);
     }
 
     @Override

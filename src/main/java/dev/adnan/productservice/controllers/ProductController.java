@@ -31,9 +31,9 @@ public class ProductController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<GenericProductDTO> deleteProductById(@PathVariable("id") Long id) {
-        return new ResponseEntity<>(productService.deleteById(id),
-                HttpStatus.OK);
+    public ResponseEntity<String> deleteProductById(@PathVariable("id") Long id) throws NotFoundException {
+        productService.deleteById(id);
+        return new ResponseEntity<>("Product with id " +id+ " deleted Successfully!", HttpStatus.OK);
     }
     @PostMapping
     public GenericProductDTO createProduct(@RequestBody GenericProductDTO product ) {

@@ -41,9 +41,9 @@ public class FakeStoreProductService implements ProductService {
     }
 
     @Override
-    public GenericProductDTO deleteById(Long id) {
+    public void deleteById(Long id) throws NotFoundException {
         FakeStoreProductDTO fakeStoreProductDTO = fakeStoreProductServiceClient.deleteById(id);
-        return convertFakeStoreProductIntoGenericProduct(fakeStoreProductDTO);
+        //return convertFakeStoreProductIntoGenericProduct(fakeStoreProductDTO);
     }
     @Override
     public List<GenericProductDTO> getAllProducts() {
