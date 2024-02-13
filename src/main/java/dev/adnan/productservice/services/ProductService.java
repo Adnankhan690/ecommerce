@@ -12,4 +12,5 @@ public interface ProductService {
     GenericProductDTO updateProductById(GenericProductDTO product,Long id) throws NotFoundException;
     void deleteById(Long id) throws NotFoundException;
     List<GenericProductDTO> getAllProducts();
+    List<GenericProductDTO> getProductsInCategory(String categoryName) throws NotFoundException;
 }

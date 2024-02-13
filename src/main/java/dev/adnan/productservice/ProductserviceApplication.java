@@ -68,29 +68,29 @@ public class ProductserviceApplication implements CommandLineRunner {
 //        List<User> users = userRepository.findAll();
 ////        users.stream().forEach(x -> System.out.println(x));
 
-        Category category = new Category();
-        category.setName("OnePlus Device");
-//        Category savedCategory = categoryRepository.save(category);
+//        Category category = new Category();
+//        category.setName("OnePlus Device");
+////        Category savedCategory = categoryRepository.save(category);
 
-        Price price = new Price();
-        price.setCurrency("Rupee");
-        price.setPrice(120000);
+//        Price price = new Price();
+//        price.setCurrency("Rupee");
+//        price.setPrice(120000);
 //        Price savedPrice = priceRepository.save(price);
 
-        Product product = new Product();
-        product.setDescription("Oneplus 10 pro with 50mega pixel");
-        product.setTitle("1+ 10 pro");
-        product.setPrice(price);
-
-        product.setCategory(category);
-
-        productRepository.save(product);
-//        productRepository.deleteById(UUID.fromString(
-//                "bb7d1ec0-1d12-405a-a4e0-ba623b8dbe46"));
-
-        List<Product> prd = productRepository.findAllByPrice_Currency("Rupee");
-
-        System.out.println("Count = "+productRepository.countAllByPrice_Currency("Rupee"));
+//        Product product = new Product();
+//        product.setDescription("Oneplus 10 pro with 50mega pixel");
+//        product.setTitle("1+ 10 pro");
+////        product.setPrice(price);
+//
+////        product.setCategory(category);
+//
+//        productRepository.save(product);
+////        productRepository.deleteById(UUID.fromString(
+////                "bb7d1ec0-1d12-405a-a4e0-ba623b8dbe46"));
+//
+//        List<Product> prd = productRepository.findAllByPrice_Currency("Rupee");
+//
+//        System.out.println("Count = "+productRepository.countAllByPrice_Currency("Rupee"));
 
 //        Category category1 = categoryRepository.findById(UUID.fromString(
 //                "70758478-2433-49d9-a733-a540dc3e6c13")).get();

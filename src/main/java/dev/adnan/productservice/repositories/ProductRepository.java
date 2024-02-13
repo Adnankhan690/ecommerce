@@ -13,6 +13,10 @@ import java.util.UUID;
 public interface ProductRepository extends JpaRepository<Product, Long> {
     Product findByTitleEquals(String title);
     Optional<Product> findById(Long id);
+//    Optional<Product> findByCategoryLike(String categoryName);
+//    List<Product> findAllByCategoryLike(String categoryName);
+    Optional<Product> findByCategory_Name(String categoryName);
+    List<Product> findAllByCategory_Name(String categoryName);
     Product findByTitleEqualsAndPrice_Price(String title, double price);
     List<Product> findAllByPrice_Currency(String currency);
 

@@ -5,15 +5,11 @@ import dev.adnan.productservice.exceptions.NotFoundException;
 import dev.adnan.productservice.models.Category;
 import dev.adnan.productservice.models.Price;
 import dev.adnan.productservice.models.Product;
+import dev.adnan.productservice.repositories.CategoryRepository;
 import dev.adnan.productservice.repositories.ProductRepository;
-import dev.adnan.productservice.thirdPartyClients.productservice.FakeStoreProductDTO;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.*;
 
@@ -29,12 +25,15 @@ public class SelfProductServiceImpl implements ProductService {
     private String baseSpecificProductRequestUrl;
     private ProductRepository productRepository;
     private RestTemplateBuilder restTemplateBuilder;
+    private CategoryRepository categoryRepository;
 
     public SelfProductServiceImpl(ProductRepository productRepository,
                                   RestTemplateBuilder restTemplateBuilder,
                                   @Value("${fakestore.api.url}") String productStoreApriUrl,
-                                  @Value("/products") String baseProductRequestUrl) {
+                                  @Value("/products") String baseProductRequestUrl,
+                                  CategoryRepository categoryRepository) {
         this.productRepository = productRepository;
+        this.categoryRepository = categoryRepository;
         this.restTemplateBuilder = restTemplateBuilder;
         this.baseProductRequestUrl = productStoreApriUrl + baseProductRequestUrl;
         this.baseSpecificProductRequestUrl = productStoreApriUrl + baseProductRequestUrl + "/{id}";
@@ -131,13 +130,29 @@ public class SelfProductServiceImpl implements ProductService {
 
     @Override
     public List<GenericProductDTO> getAllProducts() {
-        List<Product> product = productRepository.findAll();
+        List<Product> products = productRepository.findAll();
         List<GenericProductDTO> genericList = new ArrayList<>();
 
-        for(Product pd : product) {
-            GenericProductDTO genericProduct = convertProductToGenericProductDto(pd);
+        for(Product product : products) {
+            GenericProductDTO genericProduct = convertProductToGenericProductDto(product);
             genericList.add(genericProduct);
         }
         return genericList;
+    }
+
+    public List<GenericProductDTO> getProductsInCategory(String categoryName) throws NotFoundException {
+        Optional<Product> category = productRepository.findByCategory_Name(categoryName);
+        if(category.isEmpty())  {
+            throw new NotFoundException("Product with category name "+categoryName+" doesn't exist");
+        }
+        List<Product> products = productRepository.findAllByCategory_Name(categoryName);
+
+        List<GenericProductDTO> genericProductList = new ArrayList<>();
+        for(Product product : products) {
+            GenericProductDTO genericProduct = convertProductToGenericProductDto(product);
+            genericProductList.add(genericProduct);
+        }
+
+        return genericProductList;
     }
 }

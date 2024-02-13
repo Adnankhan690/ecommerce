@@ -42,8 +42,13 @@ public class ProductController {
 
     @PutMapping("/{id}")
     public GenericProductDTO updateProductById(@RequestBody GenericProductDTO product, @PathVariable("id") Long id)
-    throws NotFoundException {
+            throws NotFoundException {
         return productService.updateProductById(product, id);
+    }
+    @GetMapping("/category/{category}")
+    public List<GenericProductDTO> getProductsInCategory(@PathVariable("category") String categoryName)
+            throws NotFoundException{
+        return productService.getProductsInCategory(categoryName);
     }
 
 }

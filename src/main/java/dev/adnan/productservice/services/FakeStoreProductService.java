@@ -59,5 +59,9 @@ public class FakeStoreProductService implements ProductService {
         FakeStoreProductDTO fakeStoreProductDTO = fakeStoreProductServiceClient.updateProductById(updateProduct, id);
         return convertFakeStoreProductIntoGenericProduct(fakeStoreProductDTO);
     }
+    @Override
+    public List<GenericProductDTO> getProductsInCategory(String categoryName) {
+        return null;
+    }
 
 }
