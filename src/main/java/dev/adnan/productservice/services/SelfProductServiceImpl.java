@@ -15,8 +15,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service("selfProductServiceImpl")
 public class SelfProductServiceImpl implements ProductService {
@@ -43,7 +45,6 @@ public class SelfProductServiceImpl implements ProductService {
 
     public GenericProductDTO convertProductToGenericProductDto(Product product) {
         GenericProductDTO genericProductDTO = new GenericProductDTO();
-        genericProductDTO.setId(product.getId());
         genericProductDTO.setImage(product.getImage());
         genericProductDTO.setDescription(product.getDescription());
         genericProductDTO.setTitle(product.getTitle());
@@ -74,11 +75,12 @@ public class SelfProductServiceImpl implements ProductService {
         newProduct.setImage(product.getImage());
         newProduct.setDescription(product.getDescription());
         newProduct.setTitle(product.getTitle());
-     //   productRepository.saveAndFlush(newProduct);
          Price price = new Price();
          price.setPrice(product.getPrice());
          newProduct.setPrice(price);
-       productRepository.save(newProduct);
+         //This is more good bcs of synchronization
+         productRepository.saveAndFlush(newProduct);
+//       productRepository.save(newProduct);
 
         return convertProductToGenericProductDto(newProduct);
     }
@@ -95,6 +97,13 @@ public class SelfProductServiceImpl implements ProductService {
 
     @Override
     public List<GenericProductDTO> getAllProducts() {
-        return null;
+        List<Product> product = productRepository.findAll();
+        List<GenericProductDTO> genericList = new ArrayList<>();
+
+        for(Product pd : product) {
+            GenericProductDTO genericProduct = convertProductToGenericProductDto(pd);
+            genericList.add(genericProduct);
+        }
+        return genericList;
     }
 }
