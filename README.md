@@ -4,17 +4,19 @@
   This project implements the backend architecture for an Ecommerce Website, providing functionalities such as user management, product catalog, cart and checkout processes, order management, payment processing, and authentication.
 
 ## Table of Contents:
-* Functional Requirements
-* High-Level Design (HLD)
-* Architecture Components
-* Typical Flow with Kafka & Elasticsearch Integration
-* Getting Started
-* Prerequisites
-* Installation
-* Usage
-* Contributing
-* License
-* Functional Requirements
+```
+1.  Functional Requirements
+2.  High-Level Design (HLD)
+3.  Architecture Components
+4.  Typical Flow with Kafka & Elasticsearch Integration
+5.  Getting Started
+6.  Prerequisites
+7.  Installation
+8.  Usage
+9.  Contributing
+10. License
+11. Functional Requirements
+```
 
 ## User Management:
  ```
