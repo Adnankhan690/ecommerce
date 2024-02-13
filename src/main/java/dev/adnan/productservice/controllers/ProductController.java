@@ -1,5 +1,6 @@
 package dev.adnan.productservice.controllers;
 
+import dev.adnan.productservice.DTO.GenericCategoryDTO;
 import dev.adnan.productservice.thirdPartyClients.productservice.FakeStoreProductDTO;
 import dev.adnan.productservice.DTO.GenericProductDTO;
 import dev.adnan.productservice.exceptions.NotFoundException;
@@ -49,6 +50,11 @@ public class ProductController {
     public List<GenericProductDTO> getProductsInCategory(@PathVariable("category") String categoryName)
             throws NotFoundException{
         return productService.getProductsInCategory(categoryName);
+    }
+
+    @GetMapping("/categories")
+    public List<GenericCategoryDTO> getAllCategories() {
+        return productService.getAllCategories();
     }
 
 }

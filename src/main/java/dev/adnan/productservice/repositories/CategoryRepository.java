@@ -12,5 +12,6 @@ import java.util.UUID;
 public interface CategoryRepository extends JpaRepository<Category, Long> {
 //    Optional<Product> findByCategoryLike(String categoryName);
 //    List<Product> findAllByCategoryLike(String categoryName);
+    List<Category> findAll();
 
 }

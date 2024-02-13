@@ -1,5 +1,6 @@
 package dev.adnan.productservice.services;
 
+import dev.adnan.productservice.DTO.GenericCategoryDTO;
 import dev.adnan.productservice.thirdPartyClients.productservice.FakeStoreProductDTO;
 import dev.adnan.productservice.DTO.GenericProductDTO;
 import dev.adnan.productservice.exceptions.NotFoundException;
@@ -61,6 +62,9 @@ public class FakeStoreProductService implements ProductService {
     }
     @Override
     public List<GenericProductDTO> getProductsInCategory(String categoryName) {
+        return null;
+    }
+    public List<GenericCategoryDTO> getAllCategories() {
         return null;
     }
 

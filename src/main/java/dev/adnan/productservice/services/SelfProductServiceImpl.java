@@ -1,5 +1,6 @@
 package dev.adnan.productservice.services;
 
+import dev.adnan.productservice.DTO.GenericCategoryDTO;
 import dev.adnan.productservice.DTO.GenericProductDTO;
 import dev.adnan.productservice.exceptions.NotFoundException;
 import dev.adnan.productservice.models.Category;
@@ -51,6 +52,19 @@ public class SelfProductServiceImpl implements ProductService {
 
         return genericProductDTO;
     }
+
+//    public GenericProductDTO convertCategoryToGenericCategoryDTO(Category category) {
+//        GenericProductDTO genericCategoryDTO = new GenericProductDTO();
+//
+//        genericCategoryDTO.setId(category.getId());
+//        genericCategoryDTO.setImage(category.getImage());
+//        genericCategoryDTO.setDescription(category.getDescription());
+//        genericCategoryDTO.setTitle(category.getTitle());
+//        genericCategoryDTO.setPrice(category.getPrice().getPrice());
+//        genericCategoryDTO.setCategory(category.getCategory().getName());
+//
+//        return genericCategoryDTO;
+//    }
     @Override
     public GenericProductDTO getProductById(Long id) throws NotFoundException {
         Optional<Product> optionalProduct = productRepository.findById(id);
@@ -154,5 +168,19 @@ public class SelfProductServiceImpl implements ProductService {
         }
 
         return genericProductList;
+    }
+
+    public List<GenericCategoryDTO> getAllCategories() {
+        List<Category> categories = categoryRepository.findAll();
+
+        List<GenericCategoryDTO> genericCategoriesList = new ArrayList<>();
+
+        for(Category category : categories) {
+            GenericCategoryDTO genericCategory = new GenericCategoryDTO();
+            genericCategory.setName(category.getName());
+
+            genericCategoriesList.add(genericCategory);
+        }
+        return genericCategoriesList;
     }
 }
