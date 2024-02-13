@@ -70,7 +70,8 @@
       
 * API Gateway:
 ```
-  Function: Entry point for clients. Routes requests to the right microservices, handles rate limiting, and manages authentication.
+  Function: Entry point for clients. Routes requests to the right microservices,
+  handles rate limiting, and manages authentication.
   Tool: Kong.
 ```
 
@@ -111,23 +112,23 @@
   integrates with third-party platforms like Amazon SES.
 ```      
 ## Databases:
-MySQL:
-      For structured data.
-MongoDB:
-      For flexible, unstructured data.
-
+```
+   MySQL: For structured data.
+   MongoDB: For flexible, unstructured data.
+```
 ## Kafka:
-Function:
-      Central message broker allowing asynchronous communication between microservices, ensuring data consistency, and acting as an event store for critical actions.
-
+```
+   Function: Central message broker allowing asynchronous communication between microservices,
+             ensuring data consistency, and acting as an event store for critical actions.
+```
 ## Caching with Redis:
-Use:
-      Primarily by Cart Service for faster response times.
-      
+```
+   Use: Primarily by Cart Service for faster response times.
+```      
 ## Elasticsearch:
-Use:
-      Used by Product Catalog for fast and relevant product searches.
-
+```
+   Use: Used by Product Catalog for fast and relevant product searches.
+```
 
 ## Typical Flow with Kafka & Elasticsearch Integration:
 ```
